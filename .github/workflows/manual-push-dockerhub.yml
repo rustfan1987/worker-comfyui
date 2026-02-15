@@ -14,7 +14,7 @@ on:
 
 jobs:
   manual_push:
-    runs-on: [blacksmith-8vcpu-ubuntu-2204, linux]
+    runs-on: ubuntu-latest
     permissions:
       contents: read
 
@@ -70,3 +70,4 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
           repository: ${{ env.DOCKERHUB_REPO }}/${{ env.DOCKERHUB_IMG }}
+
