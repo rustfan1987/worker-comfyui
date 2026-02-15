@@ -56,6 +56,12 @@ RUN if [ -n "${CUDA_VERSION_FOR_COMFY}" ]; then \
       /usr/bin/yes | comfy --workspace /comfyui install --version "${COMFYUI_VERSION}" --nvidia; \
     fi
 
+# Install IP-Adapter custom nodes so serverless workers have IPAdapterModelLoader
+RUN git clone --depth 1 https://github.com/cubiq/ComfyUI_IPAdapter_plus.git /comfyui/custom_nodes/ComfyUI_IPAdapter_plus \
+    && if [ -f /comfyui/custom_nodes/ComfyUI_IPAdapter_plus/requirements.txt ]; then \
+         uv pip install -r /comfyui/custom_nodes/ComfyUI_IPAdapter_plus/requirements.txt; \
+       fi    
+
 # Upgrade PyTorch if needed (for newer CUDA versions)
 RUN if [ "$ENABLE_PYTORCH_UPGRADE" = "true" ]; then \
       uv pip install --force-reinstall torch torchvision torchaudio --index-url ${PYTORCH_INDEX_URL}; \
